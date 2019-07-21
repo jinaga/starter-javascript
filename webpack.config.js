@@ -2,34 +2,33 @@ const path = require('path');
 const fs = require('fs');
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function client() {
   const views = fs.readdirSync(path.resolve(__dirname, 'views'))
-    .filter((file) => path.extname(file) === '.html')
-    .map((file) => path.basename(file, '.html'));
+    .filter(file => path.extname(file) === '.html')
+    .map(file => path.basename(file, '.html'));
   const scripts = fs.readdirSync(path.resolve(__dirname, 'src/client'))
-    .filter((file) => path.extname(file) === '.js')
-    .map((file) => path.basename(file, '.js'));
-  const names = views.filter((name) => scripts.includes(name));
+    .filter(file => path.extname(file) === '.js')
+    .map(file => path.basename(file, '.js'));
+  const names = views.filter(name => scripts.includes(name));
 
   return {
-    mode: 'production',
+    // Input
     entry: names.reduce((e, name) =>
-      ({...e, [name]: `./src/client/${name}.js`}),
+      ({ ...e, [name]: `./src/client/${name}.js` }),
       {}
     ),
-    output: {
-      filename: 'scripts/[name]-[hash].js',
-      path: path.resolve(__dirname, 'dist'),
-      publicPath: '/',
+    resolve: {
+      extensions: ['.js', '.scss'],
+      alias: {
+        '@shared': path.resolve(__dirname, 'src/shared'),
+        'jinaga': 'jinaga/dist/jinaga',
+      },
     },
-    target: 'web',
-    devtool: 'source-map',
-    plugins: names.map((name) => new HtmlWebpackPlugin({
-      chunks: [name],
-      template: `views/${name}.html`,
-      filename: `views/${name}.html`,
-    })),
+
+    // Processing
     module: {
       rules: [
         {
@@ -48,14 +47,38 @@ function client() {
           ],
           exclude: /node-modules/,
         },
-      ],
+        {
+            test: /\.(scss|css)$/,
+
+            use: ['style-loader', 'css-loader', 'sass-loader']
+        }
+      ]
     },
-    resolve: {
-      extensions: ['.js'],
-      alias: {
-        '@shared': path.resolve(__dirname, 'src/shared'),
-        'jinaga': 'jinaga/dist/jinaga',
-      },
+    plugins: names.map(name => new HtmlWebpackPlugin({
+      chunks: [name],
+      template: `views/${name}.html`,
+      filename: `${name}.html`
+    })).concat([
+      new WorkboxPlugin.GenerateSW({
+        swDest: 'scripts/service-worker.js',
+        importsDirectory: 'scripts'
+      }),
+      new CopyWebpackPlugin([
+        {
+          from: path.resolve(__dirname, 'src/server/images'),
+          to:   path.resolve(__dirname, 'dist/images')
+        } 
+      ])
+    ]),
+
+    // Output
+    mode: 'production',
+    target: 'web',
+    devtool: 'source-map',
+    output: {
+      filename: 'scripts/[name]-[hash].js',
+      path: path.resolve(__dirname, 'dist'),
+      publicPath: '/',
     },
   };
 }
@@ -63,18 +86,16 @@ function client() {
 module.exports = [
   client(),
   {
-    mode: 'production',
+    // Input
     entry: './src/server/server.js',
-    output: {
-      filename: 'server.js',
-      path: path.resolve(__dirname, 'dist'),
+    resolve: {
+      extensions: ['.js'],
+      alias: {
+        '@shared': path.resolve(__dirname, 'src/shared'),
+      },
     },
-    target: 'node',
-    node: {
-      __dirname: false,
-      __filename: false,
-    },
-    devtool: 'source-map',
+
+    // Processing
     module: {
       rules: [
         {
@@ -95,11 +116,18 @@ module.exports = [
         },
       ],
     },
-    resolve: {
-      extensions: ['.js'],
-      alias: {
-        '@shared': path.resolve(__dirname, 'src/shared'),
-      },
+
+    // Output
+    mode: 'production',
+    target: 'node',
+    node: {
+      __dirname: false,
+      __filename: false,
+    },
+    devtool: 'source-map',
+    output: {
+      filename: 'server.js',
+      path: path.resolve(__dirname, 'dist'),
     },
     externals: [nodeExternals()],
   },

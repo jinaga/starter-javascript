@@ -8,12 +8,14 @@ const j = JinagaBrowser.create({
   httpEndpoint: '/jinaga',
 });
 
-registerServiceWorker(refresh => {
-  // window.confirm is really bad. Please change this.
-  const shouldRefresh = window.confirm('A new version of the application is available. Would you like to refresh?');
-  if (shouldRefresh) {
-    refresh();
-  }
+window.addEventListener('load', () => {
+  registerServiceWorker(refresh => {
+    // window.confirm is really bad. Please change this.
+    const shouldRefresh = window.confirm('A new version of the application is available. Would you like to refresh?');
+    if (shouldRefresh) {
+      refresh();
+    }
+  });
 });
 
 (async () => {

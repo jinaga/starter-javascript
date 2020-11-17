@@ -45,7 +45,7 @@ UserName.Type = 'MyApplication.User.Name';
 
 export function authorizeUser(a) {
     return a
-        .no(User.Type)
+        .any(User.Type)
         .type(UserName.Type, j.for(UserName.user))
         ;
 }

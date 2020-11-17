@@ -35,10 +35,10 @@ export async function renderImage(req, res, imageFileName) {
   // Parse to integer if possible
   let width, height;
   if (widthString) {
-    width = parseInt(widthString);
+    width = parseInt(widthString.toString());
   }
   if (heightString) {
-    height = parseInt(heightString);
+    height = parseInt(heightString.toString());
   }
 
   // Set the content-type of the response

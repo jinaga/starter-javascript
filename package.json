@@ -21,12 +21,12 @@
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "jimp": "^0.16.1",
-    "jinaga": "^2.5.2",
+    "jinaga": "^2.5.3",
     "jsonwebtoken": "^8.5.1",
-    "passport": "^0.4.1",
+    "passport": "^0.5.0",
     "passport-twitter": "^1.0.4",
     "pg": "^8.7.1",
-    "source-map-support": "^0.5.19"
+    "source-map-support": "^0.5.20"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",

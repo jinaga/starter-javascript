@@ -1,9 +1,9 @@
-import express from 'express';
-import path from 'path';
-import { renderImage } from './images';
-import { manifest } from './manifest';
+const express = require('express');
+const path = require('path');
+const { renderImage } = require('./images');
+const { manifest } = require('./manifest');
 
-export function configureRoutes(app, authenticate) {
+function configureRoutes(app, authenticate) {
   app.use((req, res, next) => {
     // Ensure the page is secure, or that we are running a development build
     if ( req.headers['x-forwarded-proto'] === 'https'
@@ -21,12 +21,12 @@ export function configureRoutes(app, authenticate) {
         .send(JSON.stringify(manifest));
   });
 
-  app.get(/^\/(index.html)?$/, (req, res) => {
-    res.sendFile(path.join(__dirname, './index.html'));
+  app.get(/^\/(index.html)?$/, authenticate, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../dist/server/index.html'));
   });
 
   app.get(/^\/login(.html)?$/, (req, res, next) => {
-    res.sendFile(path.join(__dirname, './login.html'));
+    res.sendFile(path.join(__dirname, '../../views/login.html'));
   });
 
   app.get('/images/logo.png', (req, res) => {
@@ -34,9 +34,9 @@ export function configureRoutes(app, authenticate) {
     renderImage(req, res, imageFileName);
   });
 
-  app.use('/scripts', express.static(path.join(__dirname, 'scripts')));
-
-  app.get('/service-worker.js', (req, res) => {
-    res.sendFile(path.join(__dirname, './scripts/service-worker.js'));
-  });
+  app.use('/scripts', express.static(path.join(__dirname, '../../dist/scripts')));
 }
+
+module.exports = {
+  configureRoutes
+};

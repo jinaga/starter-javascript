@@ -1,13 +1,11 @@
-import 'babel-polyfill';
-import * as bodyParser from 'body-parser';
-import * as cookieParser from 'cookie-parser';
-import * as express from 'express';
-import * as session from 'express-session';
-import * as http from 'http';
-import 'source-map-support/register';
-import {configureAuthentication} from './authentication';
-import {configureJinaga} from './jinaga-config';
-import {configureRoutes} from './routes';
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const express = require('express');
+const session = require('express-session');
+const http = require('http');
+const {configureAuthentication} = require('./authentication');
+const {configureJinaga} = require('./jinaga-config');
+const {configureRoutes} = require('./routes');
 
 const app = express();
 const server = http.createServer(app);

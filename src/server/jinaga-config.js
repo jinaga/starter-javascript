@@ -1,8 +1,8 @@
-import {authorizeUser} from '@shared/model/user';
-import {authorizeVisit} from '@shared/model/visit';
-import {JinagaServer} from 'jinaga';
+const { authorizeUser } = require("../shared/model/user");
+const { authorizeVisit } = require("../shared/model/visit");
+const { JinagaServer } = require("jinaga");
 
-export function configureJinaga(app, authenticate) {
+function configureJinaga(app, authenticate) {
   const pgConnection = process.env.JINAGA_POSTGRESQL ||
         'postgresql://dev:devpw@localhost:5432/myapplication';
   const {handler} = JinagaServer.create({
@@ -20,3 +20,7 @@ function configureAuthorization(a) {
       .with(authorizeUser)
   ;
 }
+
+module.exports = {
+  configureJinaga
+};

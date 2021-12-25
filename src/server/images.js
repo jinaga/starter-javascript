@@ -1,5 +1,5 @@
-import * as Jimp from 'jimp';
-import * as path from 'path';
+const Jimp = require('jimp');
+const path = require('path');
 
 async function resize(fileName, width, height, mimeType) {
   if ((width && width > 2048) || (height && height > 2048)) {
@@ -26,7 +26,7 @@ function safeFormat(format) {
   );
 }
 
-export async function renderImage(req, res, imageFileName) {
+async function renderImage(req, res, imageFileName) {
   // Extract the query-parameter
   const widthString = req.query.width;
   const heightString = req.query.height;
@@ -51,3 +51,7 @@ export async function renderImage(req, res, imageFileName) {
       width, height, mimeType);
   res.send(image);
 }
+
+module.exports = {
+  renderImage
+};

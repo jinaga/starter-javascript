@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "Brand new Jinaga Application",
   "private": true,
-  "main": "dist/server.js",
+  "main": "src/server/server",
   "scripts": {
-    "clean": "rm -rf dist/",
+    "clean": "rimraf dist/",
     "build": "webpack",
-    "start": "node dist/server.js",
-    "dev": "webpack --watch --mode=development & nodemon dist/server.js --watch dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server/server",
+    "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "nodemon --input-type module src/server/server.mjs --watch src/server",
+    "dev:client": "webpack --watch --mode=development",
+    "test": "jest"
   },
   "author": "Michael L Perry",
   "license": "MIT",
@@ -32,15 +34,17 @@
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
     "babel-loader": "^8.2.1",
-    "copy-webpack-plugin": "^5.1.2",
-    "css-loader": "^5.0.1",
-    "html-webpack-plugin": "^4.5.0",
+    "concurrently": "^6.5.1",
+    "css-loader": "^6.5.1",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^27.4.5",
     "nodemon": "^2.0.6",
-    "sass-loader": "^10.1.0",
-    "style-loader": "^2.0.0",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "webpack-node-externals": "^2.5.2",
-    "workbox-webpack-plugin": "^5.1.4"
+    "rimraf": "^3.0.2",
+    "sass-loader": "^12.4.0",
+    "source-map-loader": "^3.0.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "workbox-webpack-plugin": "^6.4.2"
   }
 }

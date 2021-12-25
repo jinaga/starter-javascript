@@ -35,10 +35,6 @@ function configureRoutes(app, authenticate) {
   });
 
   app.use('/scripts', express.static(path.join(__dirname, '../../dist/scripts')));
-
-  app.get('/service-worker.js', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../dist/scripts/service-worker.js'));
-  });
 }
 
 module.exports = {

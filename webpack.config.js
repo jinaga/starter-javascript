@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
 
 module.exports = {
   // Inputs
@@ -22,10 +21,6 @@ module.exports = {
       template: "./views/index.html",
       publicPath: "/scripts/",
       filename: "../server/[name].html",
-    }),
-    new WorkboxPlugin.GenerateSW({
-      swDest: 'service-worker.js',
-      inlineWorkboxRuntime: true
     }),
   ],
   module: {

@@ -5,8 +5,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 module.exports = {
   // Inputs
   entry: {
-    main: "./src/client/index.js",
-    login: "./src/client/login.js",
+    index: "./src/client/index.js",
   },
   resolve: {
     extensions: [".js", ".scss"],
@@ -25,7 +24,7 @@ module.exports = {
       filename: "../server/[name].html",
     }),
     new WorkboxPlugin.GenerateSW({
-      swDest: 'scripts/service-worker.js',
+      swDest: 'service-worker.js',
       inlineWorkboxRuntime: true
     }),
   ],

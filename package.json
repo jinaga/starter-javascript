@@ -9,7 +9,7 @@
     "build": "webpack",
     "start": "node src/server/server",
     "dev": "concurrently -k \"npm:dev:server\" \"npm:dev:client\"",
-    "dev:server": "nodemon --input-type module src/server/server.mjs --watch src/server",
+    "dev:server": "NODE_ENV=development nodemon src/server/server --watch src/server",
     "dev:client": "webpack --watch --mode=development",
     "test": "jest"
   },

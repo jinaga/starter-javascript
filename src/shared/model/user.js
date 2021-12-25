@@ -1,6 +1,6 @@
-import { Jinaga as j } from "jinaga";
+const { Jinaga: j } = require("jinaga");
 
-export class User {
+class User {
     constructor(
         publicKey
     ) {
@@ -10,7 +10,7 @@ export class User {
 }
 User.Type = 'Jinaga.User';
 
-export class UserName {
+class UserName {
     constructor(
         user,
         value,
@@ -43,9 +43,15 @@ export class UserName {
 }
 UserName.Type = 'MyApplication.User.Name';
 
-export function authorizeUser(a) {
+function authorizeUser(a) {
     return a
         .any(User.Type)
         .type(UserName.Type, j.for(UserName.user))
         ;
 }
+
+module.exports = {
+    User,
+    UserName,
+    authorizeUser
+};

@@ -1,9 +1,9 @@
-import express from 'express';
-import path from 'path';
-import { renderImage } from './images';
-import { manifest } from './manifest';
+const express = require('express');
+const path = require('path');
+const { renderImage } = require('./images');
+const { manifest } = require('./manifest');
 
-export function configureRoutes(app, authenticate) {
+function configureRoutes(app, authenticate) {
   app.use((req, res, next) => {
     // Ensure the page is secure, or that we are running a development build
     if ( req.headers['x-forwarded-proto'] === 'https'
@@ -40,3 +40,7 @@ export function configureRoutes(app, authenticate) {
     res.sendFile(path.join(__dirname, './scripts/service-worker.js'));
   });
 }
+
+module.exports = {
+  configureRoutes
+};

@@ -1,7 +1,7 @@
-import * as passport from "passport";
-import { Strategy as TwitterStrategy } from "passport-twitter";
+const passport = require("passport");
+const { Strategy: TwitterStrategy } = require("passport-twitter");
 
-export function configureAuthenticationTwitter(app) {
+function configureAuthenticationTwitter(app) {
     const TWITTER_CONSUMER_KEY = process.env.TWITTER_CONSUMER_KEY;
     const TWITTER_CONSUMER_SECRET = process.env.TWITTER_CONSUMER_SECRET;
     const TWITTER_CALLBACK_URL = process.env.TWITTER_CALLBACK_URL || "http://localhost:8080/auth/twitter/callback";
@@ -34,3 +34,7 @@ export function configureAuthenticationTwitter(app) {
         failureRedirect: '/login'
     }));
 }
+
+module.exports = {
+    configureAuthenticationTwitter
+};

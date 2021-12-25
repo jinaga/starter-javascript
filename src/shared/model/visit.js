@@ -1,6 +1,6 @@
-import { Jinaga as j } from "jinaga";
+const { Jinaga: j } = require("jinaga");
 
-export class Domain {
+class Domain {
     constructor(
         identifier
     ) {
@@ -10,7 +10,7 @@ export class Domain {
 }
 Domain.Type = 'MyApplication.Domain';
 
-export class Visit {
+class Visit {
     constructor(
         domain,
         user
@@ -35,9 +35,15 @@ export class Visit {
 }
 Visit.Type = 'MyApplication.Visit';
 
-export function authorizeVisit(a) {
+function authorizeVisit(a) {
     return a
         .any(Domain.Type)
         .type(Visit.Type, j.for(Visit.user))
         ;
 }
+
+module.exports = {
+    Domain,
+    Visit,
+    authorizeVisit
+};

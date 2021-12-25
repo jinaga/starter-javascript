@@ -4,7 +4,7 @@ const logoImage = (size) => ({
   type: 'image/png',
 });
 
-export const manifest = {
+const manifest = {
   short_name: 'Jinaga Application',
   name: 'My Jinaga Application',
   icons: [57, 76, 120, 152, 167, 180, 512].map(logoImage),
@@ -13,4 +13,8 @@ export const manifest = {
   display: 'minimal-ui',
   scope: '/',
   theme_color: '#3367D6',
+};
+
+module.exports = {
+  manifest,
 };

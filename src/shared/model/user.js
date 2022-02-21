@@ -1,4 +1,4 @@
-const { Jinaga: j } = require("jinaga");
+const { Jinaga: j, ensure } = require("jinaga");
 
 class User {
     constructor(
@@ -23,7 +23,7 @@ class UserName {
     }
 
     static user(n) {
-        n.has('user');
+        ensure(n).has('user', User);
         return j.match(n.user);
     }
 
@@ -45,7 +45,6 @@ UserName.Type = 'MyApplication.User.Name';
 
 function authorizeUser(a) {
     return a
-        .any(User.Type)
         .type(UserName.Type, j.for(UserName.user))
         ;
 }

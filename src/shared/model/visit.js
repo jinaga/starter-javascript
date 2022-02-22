@@ -1,4 +1,5 @@
-const { Jinaga: j } = require("jinaga");
+const { Jinaga: j, ensure} = require("jinaga");
+const { User } = require("./user");
 
 class Domain {
     constructor(
@@ -29,7 +30,7 @@ class Visit {
     }
 
     static user(v) {
-        v.has('user');
+        ensure(v).has('user', User);
         return j.match(v.user);
     }
 }

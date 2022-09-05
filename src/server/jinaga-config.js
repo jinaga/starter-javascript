@@ -1,6 +1,6 @@
 const { authorizeUser } = require("../shared/model/user");
 const { authorizeVisit } = require("../shared/model/visit");
-const { JinagaServer } = require("jinaga");
+const { JinagaServer } = require("jinaga-server");
 
 function configureJinaga(app, authenticate) {
   const pgConnection = process.env.JINAGA_POSTGRESQL ||

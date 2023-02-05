@@ -22,7 +22,7 @@
     "es6-promise": "^4.2.8",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "jimp": "^0.16.2",
+    "jimp": "^0.16.4",
     "jinaga": "^4.1.3",
     "jinaga-server": "^1.1.4",
     "jsonwebtoken": "^9.0.0",
